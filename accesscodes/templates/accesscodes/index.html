@@ -1,0 +1,10 @@
+{% if code_list %}
+    <ul>
+    {% for code in code_list %}
+        <li><a href="">{{ code.id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No codes are available.</p>
+{% endif %}
+
