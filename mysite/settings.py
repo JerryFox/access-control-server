@@ -25,7 +25,7 @@ SECRET_KEY = '+39^#*ayxdb(4o4w*lf*r&3ku#u5%9d#q8p^h!t=mmp_iwmaen'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['djangoproject.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['vysoky.pythonanywhere.com', 'djangoproject.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -123,6 +123,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+STATIC_ROOT = "/home/vysoky/venv/first-django-app/static"
 STATIC_URL = '/static/'
 
 ACCOUNT_ACTIVATION_DAYS = 7 # for django-registration
