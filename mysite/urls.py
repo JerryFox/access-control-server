@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^polls/', include('polls.urls')),
     url(r'^access/', include('accesscodes.urls')),
+    url(r'^auth/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^', admin.site.urls),  # J.V.,
 ]
