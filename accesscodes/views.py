@@ -30,7 +30,7 @@ def dump_codes(request):
             'card_number': c.card_number,
             'valid_from': c.valid_from,
             'valid_to': c.valid_to,
-            'username': c.user.username,
+            'username': None if not c.user else c.user.username,
         } for c in codes
     ]
     return JsonResponse(data)
