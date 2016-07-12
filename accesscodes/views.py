@@ -33,5 +33,5 @@ def dump_codes(request):
             'username': None if not c.user else c.user.username,
         } for c in codes
     ]
-    return JsonResponse(data)
+    return JsonResponse(data, safe=False)
 
