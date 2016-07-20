@@ -4,4 +4,4 @@ myvenv
 venv3519
 db.sqlite3*
 .DS_Store
-
+*.swp
