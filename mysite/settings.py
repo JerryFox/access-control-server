@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize', 
+    'django.contrib.humanize',
+    'admin_reorder',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -52,6 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -136,3 +138,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mipetraccess@gmail.com'
 EMAIL_HOST_PASSWORD = 'tohlejeheslomipetr'
 
+ADMIN_REORDER = (
+    # for admin_reorder app
+    "auth", 
+    "accesscodes", 
+    # Rename app
+    {'app': 'polls', 'label': 'Check questions'},
+)
