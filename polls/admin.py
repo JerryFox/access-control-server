@@ -9,9 +9,9 @@ class ChoiceInline(admin.TabularInline):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'question_text', 'pub_date', 'was_published_recently')
+    list_display = ('id', 'active', 'question_text', 'pub_date', 'was_published_recently')
     fieldsets = [
-        (None,               {'fields': ['question_text']}),
+        (None,               {'fields': ['active', 'question_text']}),
         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     ]
     inlines = [ChoiceInline]
