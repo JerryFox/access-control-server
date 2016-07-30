@@ -25,9 +25,8 @@ def dump_codes(request):
     )
     data = [
         {
-            'code_type': c.code_type,
-            'keyb_number': c.keyb_number,
-            'card_number': c.card_number,
+            'code_input': c.code_input,
+            'code_number': c.code_number,
             'valid_from': c.valid_from,
             'valid_to': c.valid_to,
             'username': None if not c.user else c.user.username,
