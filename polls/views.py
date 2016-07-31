@@ -7,6 +7,9 @@ from django.utils import timezone
 
 from .models import Question, Choice
 
+import random
+import datetime
+
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -18,8 +21,8 @@ class IndexView(generic.ListView):
         published in the future).
         """
         return Question.objects.filter(
-            pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:5]
+            active=True
+        ).order_by('-pub_date')
 
 
 class DetailView(generic.DetailView):
@@ -54,5 +57,45 @@ def vote(request, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        return HttpResponseRedirect(reverse('polls:test', args=(question.id,selected_choice.id,)))
+
+def random_vote(request): 
+    random_question = random.choice(Question.objects.all())
+    return HttpResponseRedirect(reverse('polls:vote', args=(random_question.id,)))
+
+def test_choice(request, question_id, choice_id): 
+    now = datetime.datetime.now()
+    question = get_object_or_404(Question, pk=question_id)
+    choice = get_object_or_404(Choice, pk=choice_id)
+    try: 
+        ipk = question.choice_set.get(correct_choice=True).pk 
+    except: 
+        ipk = -1
+    correct_choice = get_object_or_404(Choice, pk=ipk)
+    if correct_choice.id == int(choice_id): 
+        answer_is = "correct" 
+    else: 
+        if choice in question.choice_set.all(): 
+            answer_is = "wrong"
+        else: 
+            answer_is = "out of question"
+    choices = ""
+    choices = "<ul>\n" 
+    for c in question.choice_set.all(): 
+        choices += "<li>" + str(c.id) + " " + c.choice_text + "</li>\n"
+    choices += "</ul>\n"
+    html = """<html><body>
+<h3>{} {}</h3>
+{}
+Your answer is {}<br />
+The right choice: {} {}
+</body></html>
+""".format(
+        question.id, 
+        question.question_text, 
+        choices, 
+        answer_is, 
+        correct_choice.id, 
+        correct_choice.choice_text)
+    return HttpResponse(html)
 
