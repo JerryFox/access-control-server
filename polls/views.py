@@ -60,7 +60,7 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('polls:test', args=(question.id,selected_choice.id,)))
 
 def random_vote(request): 
-    random_question = random.choice(Question.objects.all())
+    random_question = random.choice(Question.objects.filter(active=True))
     return HttpResponseRedirect(reverse('polls:vote', args=(random_question.id,)))
 
 def test_choice(request, question_id, choice_id): 
