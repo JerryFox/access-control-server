@@ -1,0 +1,5 @@
+<form action="/access/get_code/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Potvrdit" />
+</form>
