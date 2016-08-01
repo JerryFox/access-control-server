@@ -26,6 +26,11 @@ def get_code(request):
             # form.cleaned_data - dictionary with data
             selected_choice = GetCodeForm.question.choice_set.all()[int(form.cleaned_data["choice_field"])]
             question = GetCodeForm.question
+            # MAIN LOGIC
+            # if user email is not in database insert it
+            # if answer is correct generate the access code
+            # send email
+
             #return HttpResponse(str(selected_choice))
             #return HttpResponse(str(GetCodeForm.question))
             return HttpResponseRedirect(reverse('polls:test', args=(question.id, selected_choice.id,)))

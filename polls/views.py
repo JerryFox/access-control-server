@@ -85,6 +85,11 @@ def test_choice(request, question_id, choice_id):
         choices += "<li>" + str(c.id) + " " + c.choice_text + "</li>\n"
     choices += "</ul>\n"
     html = """<html><body>
+<p>ble, ble, ble, ...
+děkujeme za váš zájem, 
+pokud jste zadali správně vaši e-mailovou adresu, obdržíte zprávu, 
+pokud jste správně odpověděli na kontrolní otázku, bude zpráva obsahovat vstupní kód s platností 48 hodin, atd...
+</p>
 <h3>{} {}</h3>
 {}
 Your answer is {}<br />
