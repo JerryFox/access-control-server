@@ -9,6 +9,7 @@ from .models import Question, Choice
 
 import random
 import datetime
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 class IndexView(generic.ListView):
@@ -63,6 +64,7 @@ def random_vote(request):
     random_question = random.choice(Question.objects.filter(active=True))
     return HttpResponseRedirect(reverse('polls:vote', args=(random_question.id,)))
 
+@xframe_options_exempt
 def test_choice(request, question_id, choice_id): 
     now = datetime.datetime.now()
     question = get_object_or_404(Question, pk=question_id)
