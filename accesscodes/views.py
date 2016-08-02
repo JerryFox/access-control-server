@@ -12,7 +12,10 @@ from .models import Code
 from polls.models import Question, Choice
 import random
 from django.utils.safestring import mark_safe
+from django.views.decorators.clickjacking import xframe_options_exempt
 
+
+@xframe_options_exempt
 def get_code(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
