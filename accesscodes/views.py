@@ -13,7 +13,18 @@ from polls.models import Question, Choice
 import random
 from django.utils.safestring import mark_safe
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.contrib.auth.models import User, Group
+import datetime
 
+def gen_code(length=5): 
+    """new unique numeric keypad code generating"""
+    while True: 
+        newcode = ""
+        for i in range(length): 
+            newcode += random.choice("0123456789")
+        if not Code.objects.filter(code_input="k").filter(code_number=newcode): 
+            return newcode
+        newcode = ""
 
 @xframe_options_exempt
 def get_code(request):
@@ -33,7 +44,52 @@ def get_code(request):
             # if user email is not in database insert it
             # if answer is correct generate the access code
             # send email
+            users = User.objects.filter(email=form.cleaned_data["user_email"])
+            if users: 
+                # user with this email exists
+                u = users[0]
+            else: 
+                # create new user
+                u = User()
+                u.email = form.cleaned_data["user_email"]
+                un = form.cleaned_data["user_name"]
+                if un: 
+                    if not User.objects.filter(username=un): 
+                        u.username = un
+                    else: 
+                        # error - user exists
+                        u.username = u.email
+                else: 
+                    u.username = u.email
+                u.first_name = form.cleaned_data["firstname"]
+                u.last_name = form.cleaned_data["surname"]
+                u.save()
+            if selected_choice.correct_choice: 
+                # create or update access code
+                code = Code.objects.filter(user=u).filter(code_type="rq0")
+                # test of rq0 user group existence, if does not exist: create it
+                try: 
+                    g = Group.objects.get(name="rq0")
+                except: 
+                    g = Group()
+                    g.name = "rq0"
+                    g.save()
+                # if user is not in "rq0" user group - add him
+                if not u in g.user_set.all(): 
+                    u.groups.add(g)
+                if code: 
+                    code = code[0]
+                else: 
+                    code = Code()
+                    code.user = u
+                    code.code_type = "rq0"
+                code.created = datetime.datetime.now()
+                code.valid_from = code.created
+                code.valid_to = code.valid_from + datetime.timedelta(days=2)
+                code.code_number = gen_code(5)
+                code.save()
 
+            return HttpResponse(str(form.cleaned_data))
             #return HttpResponse(str(selected_choice))
             #return HttpResponse(str(GetCodeForm.question))
             return HttpResponseRedirect(reverse('polls:test', args=(question.id, selected_choice.id,)))

@@ -4,7 +4,7 @@ from .models import Code, Event
 
 
 class CodeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'code_input', 'code_number', 'pin', 'valid_from', 'valid_to')
+    list_display = ('id', 'user', 'code_input', 'code_number', 'pin', 'code_type', 'valid_from', 'valid_to')
 
 
 class EventAdmin(admin.ModelAdmin):

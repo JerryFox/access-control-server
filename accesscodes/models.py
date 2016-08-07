@@ -7,6 +7,7 @@ class Code(models.Model):
     code_input = models.CharField(max_length=1, null=True, blank=True, default="k")
     code_number = models.CharField(max_length=15, null=True, blank=True, default="")
     pin = models.CharField(max_length=6, null=True, blank=True, default=None, unique=False)
+    code_type = models.CharField(max_length=3, null=True, blank=True, default="")
     valid_from = models.DateTimeField(null=True, blank=True, default=None)
     valid_to = models.DateTimeField(null=True, blank=True, default=None)
     created = models.DateTimeField(null=True, blank=True, default=None)
