@@ -103,7 +103,7 @@ def get_code(request):
                 code.code_number = gen_code(5)
                 code.save()
 
-            return HttpResponse(str(form.cleaned_data))
+            #return HttpResponse(str(form.cleaned_data))
             #return HttpResponse(str(selected_choice))
             #return HttpResponse(str(GetCodeForm.question))
             return HttpResponseRedirect(reverse('polls:test', args=(question.id, selected_choice.id,)))
