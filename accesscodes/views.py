@@ -16,13 +16,27 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.contrib.auth.models import User, Group
 import datetime
 
-def gen_code(length=5): 
+def get_illegal_codes(length): 
+    """codes of all the same numbers
+    and sequences"""
+    codes = []
+    for i in "0123456789": 
+        codes.append(i * length)
+    numbers = "0123456789" * (int(length / 10) + 2)
+    for i in range(length): 
+        codes.append(numbers[i:i+length])
+        codes.append(numbers[-1 - i:-1 - i - length:-1])
+    return codes
+
+
+def gen_code(length=5, default_code=""): 
     """new unique numeric keypad code generating"""
+    illegal_codes = get_illegal_codes(length)
+    newcode = default_code[:length]
     while True: 
-        newcode = ""
-        for i in range(length): 
+        while len(newcode) < length: 
             newcode += random.choice("0123456789")
-        if not Code.objects.filter(code_input="k").filter(code_number=newcode): 
+        if not Code.objects.filter(code_input="k").filter(code_number=newcode) and not newcode in illegal_codes: 
             return newcode
         newcode = ""
 
