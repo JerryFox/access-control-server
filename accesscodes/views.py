@@ -36,7 +36,7 @@ def gen_code(length=5, default_code=""):
     while True: 
         while len(newcode) < length: 
             newcode += random.choice("0123456789")
-        if not Code.objects.filter(code_input="k").filter(code_number=newcode) and not newcode in illegal_codes: 
+        if not Code.objects.filter(code_input="k").filter(code_number__startswith=newcode) and not Code.objects.extra(where=["%s like code_number ||'%%'"], params=[newcode]) and not newcode in illegal_codes: 
             return newcode
         newcode = ""
 
