@@ -15,6 +15,8 @@ from django.utils.safestring import mark_safe
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.contrib.auth.models import User, Group
 import datetime
+from django.core.mail import send_mail
+
 
 def get_illegal_codes(length): 
     """codes of all the same numbers
@@ -102,6 +104,40 @@ def get_code(request):
                 code.valid_to = code.valid_from + datetime.timedelta(days=2)
                 code.code_number = gen_code(5)
                 code.save()
+                # send email with code
+                imsg = """Na základě žádosti, ve které byla uvedena vaše e-mailová adresa {}
+vám po správné odpovědi na testovací otázku posíláme vstupní kód do baru Sylvius: 
+{}
+platnost kódu je od {} do {}.
+
+Těšíme se na vaši návštěvu! 
+Tým pracovníků baru Sylvius""".format(u.email, 
+                                code.code_number, 
+                                str(code.valid_from)[:19], 
+                                str(code.valid_to)[:19])
+                send_mail("bar Sylvius - vstupní kód", 
+                        imsg, 
+                        "", 
+                        [u.email],
+                        fail_silently=False,)
+            else: 
+                # the answer was incorrect
+                # send email without code
+                imsg = """Na základě žádosti, ve které byla uvedena vaše e-mailová adresa {}
+vám sdělujeme, že jste neodpověděli správně na testovací otázku, 
+proto vám nemůžeme zaslat vstupní kód. 
+
+Zkuste své štěstí znovu. Věříme, že se vám povede lépe. 
+
+Váš tým pracovníků baru Sylvius""".format(u.email) 
+                send_mail("bar Sylvius - vstupní kód", 
+                        imsg, 
+                        "", 
+                        [u.email],
+                        fail_silently=False,)
+
+
+
 
             #return HttpResponse(str(form.cleaned_data))
             #return HttpResponse(str(selected_choice))
