@@ -108,7 +108,7 @@ def get_code(request):
                 imsg = """Na základě žádosti, ve které byla uvedena vaše e-mailová adresa {}
 vám po správné odpovědi na testovací otázku posíláme vstupní kód do baru Sylvius: 
 {}
-platnost kódu je od {} do {}.
+Platnost kódu je od {} do {}.
 
 Těšíme se na vaši návštěvu! 
 Tým pracovníků baru Sylvius""".format(u.email, 
