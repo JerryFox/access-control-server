@@ -135,14 +135,8 @@ Váš tým pracovníků baru Sylvius""".format(u.email)
                         "", 
                         [u.email],
                         fail_silently=False,)
-
-
-
-
-            #return HttpResponse(str(form.cleaned_data))
-            #return HttpResponse(str(selected_choice))
-            #return HttpResponse(str(GetCodeForm.question))
-            return HttpResponseRedirect(reverse('polls:test', args=(question.id, selected_choice.id,)))
+            return HttpResponseRedirect(reverse('accesscodes:finished'))
+            #return HttpResponseRedirect(reverse('polls:test', args=(question.id, selected_choice.id,)))
     # if a GET (or any other method) we'll create a blank form
     else:
         q = random.choice(Question.objects.filter(active=True))
