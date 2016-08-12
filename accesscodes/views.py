@@ -47,7 +47,7 @@ def get_code(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = GetCodeForm(request.POST)
+        form = GetCodeForm(request.POST, label_suffix="")
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -148,7 +148,7 @@ Váš tým pracovníků baru Sylvius""".format(u.email)
             order += 1
         GetCodeForm.base_fields["choice_field"].label = mark_safe("<strong>" + q.question_text + "</strong>")
         GetCodeForm.base_fields["choice_field"].choices = choices  
-        form = GetCodeForm()
+        form = GetCodeForm(label_suffix="")
     return render(request, 'accesscodes/get_code.html', {'form': form})
 
 class IndexView(generic.ListView):
